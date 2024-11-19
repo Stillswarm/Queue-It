@@ -32,7 +32,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.queue_it.R
-import com.example.queue_it.commonUI.GradientButton
+import com.example.queue_it.common.GradientButton
+import com.example.queue_it.common.LoadingScreen
+import com.example.queue_it.common.RequestStatus
 import com.example.queue_it.navigation.Screen
 
 @Composable
@@ -42,6 +44,7 @@ fun SignUpScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current.applicationContext
+    val requestStatus = viewModel.requestStatus.collectAsState()
 
     Column(
         modifier = Modifier
@@ -145,7 +148,7 @@ fun SignUpScreen(
             textSize = 18,
             cornerRadius = 16.dp,
             onClick = {
-                viewModel.handleSignUp(context) { navController.navigate(Screen.Home.route) }
+                viewModel.handleSignUp(context)
             },
             modifier = Modifier.fillMaxWidth()
         )
@@ -163,6 +166,13 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.height(8.dp))
             Text(it, color = MaterialTheme.colorScheme.error)
         }
+    }
+
+    when (requestStatus.value) {
+        RequestStatus.Loading -> LoadingScreen()
+        is RequestStatus.Success -> { navController.navigate(Screen.RegisterCustomer.route) }
+        RequestStatus.Idle -> {}
+        is RequestStatus.Error -> {}
     }
 }
 

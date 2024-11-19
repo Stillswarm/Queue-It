@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.queue_it"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -112,4 +112,6 @@ dependencies {
     implementation("io.ktor:ktor-client-logging-jvm:3.0.1")
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.1")
 }
